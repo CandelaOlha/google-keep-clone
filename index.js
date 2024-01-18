@@ -52,7 +52,7 @@ const openModal = (e) => {
   }
 };
 
-const closeModal = (e) => {
+const closeModal = () => {
   editNote();
   modal.classList.remove("open-modal");
 };
@@ -69,7 +69,7 @@ formCloseButton.addEventListener("click", (e) => {
 });
 
 modalCloseButton.addEventListener("click", (e) => {
-  closeModal(e);
+  closeModal();
 });
 
 const displayNotes = () => {
