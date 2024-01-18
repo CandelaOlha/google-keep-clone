@@ -5,6 +5,7 @@ const noteText = document.querySelector("#noteText");
 const formButtons = document.querySelector("#formButtons");
 const placeholder = document.querySelector("#placeholder");
 const notesContainer = document.querySelector("#notes");
+const formCloseButton = document.querySelector("#formCloseButton");
 
 const handleFormClick = (e) => {
   const isFormClicked = form.contains(e.target);
@@ -28,6 +29,11 @@ const closeForm = () => {
 
 document.body.addEventListener("click", (e) => {
   handleFormClick(e);
+});
+
+formCloseButton.addEventListener("click", (e) => {
+  e.stopPropagation(); // stopPropagation() prevents all click events on the parent from being triggered
+  closeForm();
 });
 
 const displayNotes = () => {
