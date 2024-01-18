@@ -1,4 +1,8 @@
 let notes = [];
+let title = "";
+let text = "";
+let id = "";
+
 const form = document.querySelector("#form");
 const noteTitle = document.querySelector("#noteTitle");
 const noteText = document.querySelector("#noteText");
@@ -6,6 +10,10 @@ const formButtons = document.querySelector("#formButtons");
 const placeholder = document.querySelector("#placeholder");
 const notesContainer = document.querySelector("#notes");
 const formCloseButton = document.querySelector("#formCloseButton");
+const modal = document.querySelector(".modal");
+const modalTitle = document.querySelector(".modal-title");
+const modalText = document.querySelector(".modal-text");
+const modalCloseButton = document.querySelector(".modal-close-button");
 
 const handleFormClick = (e) => {
   const isFormClicked = form.contains(e.target);
@@ -27,13 +35,41 @@ const closeForm = () => {
   noteText.value = "";
 };
 
+const selectNote = (e) => {
+  const selectedNote = e.target.closest(".note");
+  if (!selectedNote) return;
+  const [noteTitle, noteText] = selectedNote.children;
+  title = noteTitle.innerText;
+  text = noteText.innerText;
+  id = selectedNote.dataset.id;
+};
+
+const openModal = (e) => {
+  if (e.target.closest(".note")) {
+    modal.classList.toggle("open-modal");
+    modalTitle.value = title;
+    modalText.value = text;
+  }
+};
+
+const closeModal = (e) => {
+  editNote();
+  modal.classList.toggle("open-modal");
+};
+
 document.body.addEventListener("click", (e) => {
   handleFormClick(e);
+  selectNote(e);
+  openModal(e);
 });
 
 formCloseButton.addEventListener("click", (e) => {
   e.stopPropagation(); // stopPropagation() prevents all click events on the parent from being triggered
   closeForm();
+});
+
+modalCloseButton.addEventListener("click", (e) => {
+  closeModal(e);
 });
 
 const displayNotes = () => {
@@ -44,7 +80,7 @@ const displayNotes = () => {
     return (
       acc +
       `
-    <div style="background: ${curr.color};" class="note">
+    <div style="background: ${curr.color};" class="note" data-id="${curr.id}">
     <h2 class="${curr.title && "note-title"}">${curr.title}</h2>
     <p class="note-text">${curr.text}</p>
     <div class="toolbar-container">
@@ -72,6 +108,21 @@ const addNote = (note) => {
   };
 
   notes.push(newNote);
+
+  displayNotes();
+};
+
+const editNote = () => {
+  const title = modalTitle.value;
+  const text = modalText.value;
+
+  notes = notes.map((note) => {
+    if (note.id === Number(id)) {
+      return { ...note, title, text };
+    } else {
+      return note;
+    }
+  });
 
   displayNotes();
 };
