@@ -36,17 +36,17 @@ const closeForm = () => {
 };
 
 const selectNote = (e) => {
-  const selectedNote = e.target.closest(".note");
+  const selectedNote = e.target.closest(".note"); // Getting a specific note
   if (!selectedNote) return;
   const [noteTitle, noteText] = selectedNote.children;
   title = noteTitle.innerText;
   text = noteText.innerText;
-  id = selectedNote.dataset.id;
+  id = selectedNote.dataset.id; // Getting the ID of that specific note
 };
 
 const openModal = (e) => {
   if (e.target.closest(".note")) {
-    modal.classList.toggle("open-modal");
+    modal.classList.add("open-modal");
     modalTitle.value = title;
     modalText.value = text;
   }
@@ -54,7 +54,7 @@ const openModal = (e) => {
 
 const closeModal = (e) => {
   editNote();
-  modal.classList.toggle("open-modal");
+  modal.classList.remove("open-modal");
 };
 
 document.body.addEventListener("click", (e) => {
