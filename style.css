@@ -146,7 +146,6 @@ header {
 }
 
 #noteTitle {
-  display: none;
   width: calc(100% - 10px);
   min-height: 43px;
   margin: 0 5px;
@@ -170,7 +169,6 @@ input:focus {
 }
 
 #formButtons {
-  display: none;
   text-align: right;
 }
 
@@ -389,4 +387,8 @@ input:focus {
 
 #teal {
   background: #a7ffeb;
+}
+
+.hidden {
+  display: none;
 }
