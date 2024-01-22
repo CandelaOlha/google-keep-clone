@@ -46,6 +46,8 @@ const selectNote = (e) => {
 };
 
 const openModal = (e) => {
+  if (e.target.matches(".toolbar-delete")) return;
+
   if (e.target.closest(".note")) {
     modal.classList.add("open-modal");
     modalTitle.value = title;
@@ -62,6 +64,7 @@ document.body.addEventListener("click", (e) => {
   handleFormClick(e);
   selectNote(e);
   openModal(e);
+  deleteNote(e);
 });
 
 formCloseButton.addEventListener("click", (e) => {
@@ -127,7 +130,9 @@ const displayNotes = () => {
         <img class="toolbar-color" data-id=${
           curr.id
         } src="https://icon.now.sh/palette">
-        <img class="toolbar-delete" src="https://icon.now.sh/delete">
+        <img class="toolbar-delete" data-id="${
+          curr.id
+        }" src="https://icon.now.sh/delete">
       </div>
     </div>
   </div>
@@ -177,6 +182,15 @@ const editNoteColor = (color) => {
     }
   });
 
+  displayNotes();
+};
+
+const deleteNote = (e) => {
+  e.stopPropagation();
+  if (!e.target.matches(".toolbar-delete")) return;
+
+  const id = e.target.dataset.id;
+  notes = notes.filter((note) => note.id !== Number(id));
   displayNotes();
 };
 
