@@ -1,4 +1,10 @@
-let notes = [];
+const saveNotesInLocalStorage = () =>
+  localStorage.setItem("notes", JSON.stringify(notes));
+
+const getNotesFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem("notes"));
+
+let notes = getNotesFromLocalStorage() || [];
 let title = "";
 let text = "";
 let id = "";
@@ -155,6 +161,7 @@ const addNote = (note) => {
 
   notes.push(newNote);
 
+  saveNotesInLocalStorage();
   displayNotes();
 };
 
@@ -170,6 +177,7 @@ const editNote = () => {
     }
   });
 
+  saveNotesInLocalStorage();
   displayNotes();
 };
 
@@ -182,6 +190,7 @@ const editNoteColor = (color) => {
     }
   });
 
+  saveNotesInLocalStorage();
   displayNotes();
 };
 
@@ -191,6 +200,7 @@ const deleteNote = (e) => {
 
   const id = e.target.dataset.id;
   notes = notes.filter((note) => note.id !== Number(id));
+  saveNotesInLocalStorage();
   displayNotes();
 };
 
@@ -201,3 +211,5 @@ form.onsubmit = (e) => {
   const hasNote = title || text;
   hasNote && addNote({ title, text });
 };
+
+displayNotes();
