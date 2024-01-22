@@ -1,4 +1,4 @@
-# Google Keep Clone
+# ✍ Google Keep Clone
 
 ## About this project
 
@@ -12,5 +12,4 @@ This project, which is part of the [Scrimba](https://scrimba.com/) Javascript co
 - CSS
 - Javascript
 
-Have a look!
-[Google Keep Clone](https://candelaolha.github.io/google-keep-clone/)
+Have a look! 👉 [Google Keep Clone](https://candelaolha.github.io/google-keep-clone/)
