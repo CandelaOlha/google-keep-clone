@@ -14,6 +14,7 @@ const modal = document.querySelector(".modal");
 const modalTitle = document.querySelector(".modal-title");
 const modalText = document.querySelector(".modal-text");
 const modalCloseButton = document.querySelector(".modal-close-button");
+const colorTooltip = document.querySelector("#colorTooltip");
 
 const handleFormClick = (e) => {
   const isFormClicked = form.contains(e.target);
@@ -72,6 +73,44 @@ modalCloseButton.addEventListener("click", (e) => {
   closeModal();
 });
 
+const openTooltip = (e) => {
+  if (!e.target.matches(".toolbar-color")) return;
+  id = e.target.dataset.id;
+  const noteCoords = e.target.getBoundingClientRect();
+  const horizontal = noteCoords.left;
+  const vertical = window.scrollY - 20;
+  colorTooltip.style.transform = `translate(${horizontal}px, ${vertical}px)`;
+  colorTooltip.style.display = "flex";
+};
+
+const closeTooltip = (e) => {
+  if (!e.target.matches(".toolbar-color")) return;
+  colorTooltip.style.display = "none";
+};
+
+document.body.addEventListener("mouseover", (e) => {
+  openTooltip(e);
+});
+
+document.body.addEventListener("mouseout", (e) => {
+  closeTooltip(e);
+});
+
+colorTooltip.addEventListener("mouseover", () => {
+  colorTooltip.style.display = "flex";
+});
+
+colorTooltip.addEventListener("mouseout", () => {
+  colorTooltip.style.display = "none";
+});
+
+colorTooltip.addEventListener("click", (e) => {
+  const color = e.target.dataset.color;
+  if (color) {
+    editNoteColor(color);
+  }
+});
+
 const displayNotes = () => {
   const hasNotes = notes.length > 0;
   placeholder.style.display = hasNotes ? "none" : "flex";
@@ -85,7 +124,9 @@ const displayNotes = () => {
     <p class="note-text">${curr.text}</p>
     <div class="toolbar-container">
       <div class="toolbar">
-        <img class="toolbar-color" src="https://icon.now.sh/palette">
+        <img class="toolbar-color" data-id=${
+          curr.id
+        } src="https://icon.now.sh/palette">
         <img class="toolbar-delete" src="https://icon.now.sh/delete">
       </div>
     </div>
@@ -119,6 +160,18 @@ const editNote = () => {
   notes = notes.map((note) => {
     if (note.id === Number(id)) {
       return { ...note, title, text };
+    } else {
+      return note;
+    }
+  });
+
+  displayNotes();
+};
+
+const editNoteColor = (color) => {
+  notes = notes.map((note) => {
+    if (note.id === Number(id)) {
+      return { ...note, color };
     } else {
       return note;
     }
